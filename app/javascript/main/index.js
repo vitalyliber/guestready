@@ -1,12 +1,14 @@
-import New from './properties/new'
-import Dashboard from './dashboard/index'
+import New from './views/properties/new'
+import Dashboard from './views/dashboard/index'
+import NotFound from './views/public/not_found'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  Switch
 } from 'react-router-dom'
 
 
@@ -21,9 +23,12 @@ ReactDOM.render(
     </div>
 
     <hr/>
+    <Switch>
+      <Route exact path="/" component={Dashboard}></Route>
+      <Route exact path="/properties/new" component={New}/>
+      <Route path="*" component={NotFound} />
+    </Switch>
 
-    <Route exact path="/" component={Dashboard}/>
-    <Route exact path="/pages/:id" component={New}/>
 
   </div>
 </Router>,
