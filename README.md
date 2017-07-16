@@ -1,6 +1,6 @@
 # guestready
 
-**ruby version:** 2.3.4
+**ruby version:** 2.3.1
 
 **gemset:** guestready
 
