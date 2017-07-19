@@ -1,4 +1,5 @@
-import New from './views/properties/new'
+import NewProperty from './views/properties/new'
+import Properties from './views/properties/index'
 import Dashboard from './views/dashboard/index'
 import NotFound from './views/public/not_found'
 import ReactDOM from 'react-dom'
@@ -25,7 +26,8 @@ ReactDOM.render(
     <hr/>
     <Switch>
       <Route exact path="/" component={Dashboard}></Route>
-      <Route exact path="/properties/new" component={New}/>
+      <Route exact path="/properties/new" component={NewProperty}/>
+      <Route exact path="/properties" component={Properties}/>
       <Route path="*" component={NotFound} />
     </Switch>
 
