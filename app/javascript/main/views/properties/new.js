@@ -30,6 +30,8 @@ export default class New extends React.Component {
   }
 
   createProperty(e) {
+    e.preventDefault()
+
     axios.post(`/api/v1/properties`, {
       name: this.state.name,
       address: this.state.address,

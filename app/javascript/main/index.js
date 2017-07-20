@@ -11,19 +11,16 @@ import {
   Link,
   Switch
 } from 'react-router-dom'
-
+import Navbar from './views/dashboard/navbar'
 
 ReactDOM.render(
 <Router>
   <div className="container">
 
-    <div className="row">
-      <div className="col mt-2">
-        <Link to="/">GuestReady!</Link>
-      </div>
-    </div>
+    <Navbar/>
 
-    <hr/>
+    <br/>
+
     <Switch>
       <Route exact path="/" component={Dashboard}></Route>
       <Route exact path="/properties/new" component={NewProperty}/>

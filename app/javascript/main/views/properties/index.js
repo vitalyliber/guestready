@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Card, CardText, CardBlock, CardTitle, CardSubtitle, Button, CardColumns } from 'reactstrap';
+import { Card, CardText, CardBlock, CardTitle, CardSubtitle, CardColumns } from 'reactstrap';
 
 export default class Index extends React.Component {
   constructor(props) {
