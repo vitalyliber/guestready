@@ -1,5 +1,7 @@
 class Api::V1::PropertiesController < ApplicationController
 
+  protect_from_forgery prepend: true
+
   def index
     @properties = Property.all
 
@@ -12,7 +14,8 @@ class Api::V1::PropertiesController < ApplicationController
     if @property.save
       render json: {id: @property.id}, status: :created
     else
-      render json: {}, status: :bad_request
+      render json: {errors: @property.errors.map {|attribute, message| {attribute: attribute, message: message}} },
+                    status: :bad_request
     end
 
   end
