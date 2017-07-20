@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import is_blank from 'is-empty'
+import { UncontrolledAlert } from 'reactstrap';
 
 export default class New extends React.Component {
   constructor(props) {
@@ -66,9 +66,9 @@ export default class New extends React.Component {
 
           { this.state.errors.map(( (error, index) => {
             return(
-              <div key={index} className="alert alert-danger" role="alert">
+              <UncontrolledAlert key={index} color="danger">
                 <strong>{error.attribute}</strong> {error.message}
-              </div>
+              </UncontrolledAlert>
             )
           }))}
 
