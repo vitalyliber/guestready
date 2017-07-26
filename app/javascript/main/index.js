@@ -8,7 +8,6 @@ import 'bootstrap/dist/css/bootstrap.css'
 import {
   BrowserRouter as Router,
   Route,
-  Link,
   Switch
 } from 'react-router-dom'
 import Navbar from './views/dashboard/navbar'

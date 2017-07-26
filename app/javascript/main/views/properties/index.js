@@ -41,7 +41,7 @@ export default class Index extends React.Component {
                   <CardBlock>
                     <CardTitle>{property.name}</CardTitle>
                     <CardSubtitle>{property.address}</CardSubtitle>
-                    <CardText>Size: {property.address}, Bedrooms: {property.bedrooms_number}, Bathrooms: {property.bathrooms_number}</CardText>
+                    <CardText>Size: {property.size}, Bedrooms: {property.bedrooms_number}, Bathrooms: {property.bathrooms_number}</CardText>
                   </CardBlock>
                 </Card>
               )
