@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
-import { UncontrolledAlert } from 'reactstrap';
+import { UncontrolledAlert } from 'reactstrap'
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 
 export default class New extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ export default class New extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.createProperty = this.createProperty.bind(this);
+    this.addressOnChange = (address) => this.setState({ address })
   }
 
   handleInputChange(event) {
@@ -32,33 +34,54 @@ export default class New extends React.Component {
   createProperty(e) {
     e.preventDefault()
 
-    axios.post(`/api/v1/properties`, {
-      name: this.state.name,
-      address: this.state.address,
-      bedrooms_number: this.state.bedrooms_number,
-      bathrooms_number: this.state.bathrooms_number,
-      size: this.state.size
-    })
-      .then(function (response) {
-        console.log(response)
-        this.setState({
-          name: '',
-          address: '',
-          bedrooms_number: '',
-          bathrooms_number: '',
-          size: '',
-          errors: []
+    geocodeByAddress(this.state.address)
+      .then(results => getLatLng(results[0]))
+      .then( (lat_lng) => {
+        console.log('Success', lat_lng);
+
+        axios.post(`/api/v1/properties`, {
+          name: this.state.name,
+          address: this.state.address,
+          bedrooms_number: this.state.bedrooms_number,
+          bathrooms_number: this.state.bathrooms_number,
+          size: this.state.size,
+          lat: lat_lng.lat,
+          lng: lat_lng.lng
         })
-      }.bind(this))
-      .catch(function (error) {
-        console.log(error.response.status)
-        this.setState({
-          errors: error.response.data.errors
-        })
-      }.bind(this))
+          .then(function (response) {
+            console.log(response);
+            this.setState({
+              name: '',
+              address: '',
+              bedrooms_number: '',
+              bathrooms_number: '',
+              size: '',
+              errors: []
+            })
+          }.bind(this))
+          .catch(function (error) {
+            console.log(error.response.status)
+            this.setState({
+              errors: error.response.data.errors
+            })
+          }.bind(this))
+      })
+      .catch( (error) => {
+        console.error('Error', error);
+        this.setState({errors: [{attribute: 'address', message: 'is not valid'}]})
+      })
   }
 
   render() {
+    const addressClasses = {
+      input: 'form-control'
+    };
+
+    const inputProps = {
+      value: this.state.address,
+      onChange: this.addressOnChange,
+      placeholder: 'Address'
+    };
 
     return(
       <div className="row">
@@ -78,8 +101,7 @@ export default class New extends React.Component {
                      className="form-control" placeholder="Name" value={this.state.name}/>
             </div>
             <div className="form-group">
-              <input type="text" name="address" onChange={this.handleInputChange}
-                     className="form-control" placeholder="Address" value={this.state.address}/>
+              <PlacesAutocomplete inputProps={inputProps} classNames={addressClasses} placeholder="Address"/>
             </div>
             <div className="form-group">
               <input type="text" name="bedrooms_number" onChange={this.handleInputChange}
