@@ -1,0 +1,25 @@
+version: "3"
+
+volumes:
+  db: {}
+
+services:
+  db:
+    image: postgres:9.6.3
+    env_file: ./config/env/.env_production
+    volumes:
+      - db:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    env_file: ./config/env/.env_production
+    environment:
+      RAILS_ENV: production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    restart: unless-stopped

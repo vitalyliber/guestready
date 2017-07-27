@@ -3,7 +3,11 @@ class Api::V1::PropertiesController < ApplicationController
   protect_from_forgery prepend: true
 
   def index
-    @properties = Property.all
+    if params[:name].present?
+      @properties = Property.search_by_name(params[:name])
+    else
+      @properties = Property.all
+    end
 
     render json: @properties, status: :ok
   end

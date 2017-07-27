@@ -1,0 +1,13 @@
+version: "3"
+
+volumes:
+  db: {}
+
+services:
+  db:
+    image: postgres:9.6.3
+    env_file: ./config/env/.env_development
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+     - 5432:5432
