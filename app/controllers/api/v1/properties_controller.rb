@@ -4,7 +4,7 @@ class Api::V1::PropertiesController < ApplicationController
 
   def index
     if params[:name].present?
-      @properties = Property.search_by_name(params[:name])
+      @properties = Property.search_by_name(params[:name]).limit(6)
     else
       @properties = Property.all
     end

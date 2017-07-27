@@ -3,8 +3,7 @@ import axios from 'axios'
 import { Card, CardText, CardBlock, CardTitle, CardSubtitle, CardColumns } from 'reactstrap';
 import { InputGroup, InputGroupButton, Input } from 'reactstrap';
 import Autosuggest from 'react-autosuggest';
-
-
+import isEmpty from 'is-empty'
 
 export default class Index extends React.Component {
   constructor(props) {
@@ -20,11 +19,13 @@ export default class Index extends React.Component {
   }
 
   componentWillMount() {
-    this.properties()
+    this.properties(null)
   }
 
-  properties() {
-    axios.get(`/api/v1/properties`)
+  properties(name) {
+    let search_name = isEmpty(name) ? '' : `?name=${name}`
+
+    axios.get(`/api/v1/properties${search_name}`)
       .then(function (response) {
         console.log(response)
         this.setState({
@@ -47,18 +48,22 @@ export default class Index extends React.Component {
       return [];
     }
 
+    if (escapedValue.trim().length < 3) {
+      return [];
+    }
+
     const regex = new RegExp('^' + escapedValue, 'i');
 
-    // return languages.filter(language => regex.test(language.name));
-
-    return [
-      {
-        name: 'Ruby'
-      },
-      {
-        name: 'Scala'
-      }
-    ]
+    axios.get(`/api/v1/properties?name=${escapedValue}`)
+      .then(function (response) {
+        console.log(response)
+        this.setState({
+          suggestions: response.data
+        });
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error.response.status)
+      }.bind(this))
   }
 
   getSuggestionValue(suggestion) {
@@ -78,9 +83,7 @@ export default class Index extends React.Component {
   };
 
   onSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      suggestions: this.getSuggestions(value)
-    });
+    this.getSuggestions(value)
   };
 
   onSuggestionsClearRequested = () => {
@@ -108,9 +111,10 @@ export default class Index extends React.Component {
               onSuggestionsClearRequested={this.onSuggestionsClearRequested}
               getSuggestionValue={this.getSuggestionValue}
               renderSuggestion={this.renderSuggestion}
-              inputProps={inputProps} />
+              inputProps={inputProps}
+              onSuggestionSelected={() => this.properties(this.state.value)}/>
 
-            <InputGroupButton color="success">Search</InputGroupButton>
+            <InputGroupButton onClick={() => this.properties(this.state.value)} color="success">Search</InputGroupButton>
           </InputGroup>
 
           <CardColumns>
