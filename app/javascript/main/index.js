@@ -5,6 +5,7 @@ import NotFound from './views/public/not_found'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
+import './styles/autosuggest.sass'
 import {
   BrowserRouter as Router,
   Route,
