@@ -6,7 +6,7 @@ class Api::V1::PropertiesController < ApplicationController
     if params[:name].present?
       @properties = Property.search_by_name(params[:name]).limit(6)
     else
-      @properties = Property.all
+      @properties = Property.all.order(created_at: :desc)
     end
 
     render json: @properties, status: :ok
@@ -27,6 +27,6 @@ class Api::V1::PropertiesController < ApplicationController
   private
 
   def property_params
-    params.require(:property).permit(:name, :address, :bedrooms_number, :bathrooms_number, :size)
+    params.require(:property).permit(:name, :address, :bedrooms_number, :bathrooms_number, :size, :lat, :lng)
   end
 end
