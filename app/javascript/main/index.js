@@ -11,7 +11,7 @@ import {
   Route,
   Switch
 } from 'react-router-dom'
-import Navbar from './views/dashboard/navbar'
+import Navbar from './views/common/navbar'
 
 ReactDOM.render(
 <Router>

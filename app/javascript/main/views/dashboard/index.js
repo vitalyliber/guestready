@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Map from './../dashboard/map'
 import { fetchProperties } from './../api'
+import Loader from './../common/loader'
 import Average from 'average'
 
 export default class Dashboard extends Component {
@@ -43,11 +44,7 @@ export default class Dashboard extends Component {
 
     if (this.state.isLoading) {
       return (
-          <div className="row">
-            <div className="col">
-              Is loading...
-            </div>
-          </div>
+          <Loader/>
         )
     }
 

@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {Component} from 'react'
 import axios from 'axios'
 import { UncontrolledAlert } from 'reactstrap'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 
-export default class New extends React.Component {
+export default class New extends Component {
   constructor(props) {
     super(props)
 
@@ -14,21 +14,21 @@ export default class New extends React.Component {
       bathrooms_number: '',
       size: '',
       errors: []
-    };
+    }
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.createProperty = this.createProperty.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.createProperty = this.createProperty.bind(this)
     this.addressOnChange = (address) => this.setState({ address })
   }
 
   handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const target = event.target
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    const name = target.name
 
     this.setState({
       [name]: value
-    });
+    })
   }
 
   createProperty(e) {
@@ -49,7 +49,7 @@ export default class New extends React.Component {
           lng: lat_lng.lng
         })
           .then(function (response) {
-            console.log(response);
+            console.log(response)
             this.setState({
               name: '',
               address: '',

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react'
 
 export class MapContainer extends Component {
   constructor(props) {
@@ -70,7 +70,7 @@ export class MapContainer extends Component {
         </div>
       </div>
 
-    );
+    )
   }
 }
 

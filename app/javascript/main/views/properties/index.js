@@ -1,11 +1,11 @@
-import React from 'react'
+import React, {Component} from 'react'
 import axios from 'axios'
-import { Card, CardText, CardBlock, CardTitle, CardSubtitle, CardColumns } from 'reactstrap';
-import { InputGroup, InputGroupButton, Input } from 'reactstrap';
-import Autosuggest from 'react-autosuggest';
+import { Card, CardText, CardBlock, CardTitle, CardSubtitle, CardColumns } from 'reactstrap'
+import { InputGroup, InputGroupButton } from 'reactstrap'
+import Autosuggest from 'react-autosuggest'
 import isEmpty from 'is-empty'
 
-export default class Index extends React.Component {
+export default class Index extends Component {
   constructor(props) {
     super(props)
 
@@ -14,9 +14,9 @@ export default class Index extends React.Component {
       value: '',
       suggestions: [],
       isLoading: false
-    };
+    }
 
-    this.properties = this.properties.bind(this);
+    this.properties = this.properties.bind(this)
   }
 
   componentWillMount() {
@@ -39,21 +39,21 @@ export default class Index extends React.Component {
   }
 
   escapeRegexCharacters(str) {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   }
 
   getSuggestions(value) {
-    const escapedValue = this.escapeRegexCharacters(value.trim());
+    const escapedValue = this.escapeRegexCharacters(value.trim())
 
     if (escapedValue === '') {
-      return [];
+      return []
     }
 
     if (escapedValue.trim().length < 3) {
-      return [];
+      return []
     }
 
-    const regex = new RegExp('^' + escapedValue, 'i');
+    const regex = new RegExp('^' + escapedValue, 'i')
 
     axios.get(`/api/v1/properties?name=${escapedValue}`)
       .then(function (response) {
@@ -74,32 +74,32 @@ export default class Index extends React.Component {
   renderSuggestion(suggestion) {
     return (
       <span>{suggestion.name}</span>
-    );
+    )
   }
 
   onChange = (event, { newValue, method }) => {
     this.setState({
       value: newValue
-    });
-  };
+    })
+  }
 
   onSuggestionsFetchRequested = ({ value }) => {
     this.getSuggestions(value)
-  };
+  }
 
   onSuggestionsClearRequested = () => {
     this.setState({
       suggestions: []
-    });
-  };
+    })
+  }
 
   render() {
-    const { value, suggestions } = this.state;
+    const { value, suggestions } = this.state
     const inputProps = {
       placeholder: "Type 'name of property'...",
       value,
       onChange: this.onChange
-    };
+    }
 
     return(
       <div className="row">
