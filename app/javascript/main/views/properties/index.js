@@ -5,7 +5,7 @@ import { InputGroup, InputGroupButton } from 'reactstrap'
 import Autosuggest from 'react-autosuggest'
 import isEmpty from 'is-empty'
 
-export default class Index extends Component {
+export default class PropertyComponent extends Component {
   constructor(props) {
     super(props)
 

@@ -4,7 +4,7 @@ import { fetchProperties } from './../api'
 import Loader from './../common/loader'
 import Average from 'average'
 
-export default class Dashboard extends Component {
+export default class DashboardComponent extends Component {
   constructor(props) {
     super(props)
 

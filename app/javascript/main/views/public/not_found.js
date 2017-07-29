@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default class NotFound extends React.Component {
+export default class NotFoundComponent extends React.Component {
   constructor(props) {
     super(props)
   }

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { UncontrolledAlert } from 'reactstrap'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 
-export default class New extends Component {
+export default class NewPropertyComponent extends Component {
   constructor(props) {
     super(props)
 
