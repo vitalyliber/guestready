@@ -1,13 +1,15 @@
 import React, {Component} from 'react'
 import Map from './../dashboard/map'
-import axios from 'axios'
+import { fetchProperties } from './../api'
+import Average from 'average'
 
 export default class Dashboard extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      properties: []
+      properties: [],
+      isLoading: false
     }
   }
 
@@ -15,25 +17,46 @@ export default class Dashboard extends Component {
     this.properties()
   }
 
+  setLoading = () => {
+    this.setState({
+      isLoading: true
+    })
+  }
+
+  setProperties = (properties) => {
+    this.setState({
+      properties: properties,
+      isLoading: false
+    })
+  }
+
   properties() {
-    axios.get(`/api/v1/properties`)
-      .then(function (response) {
-        console.log(response)
-        this.setState({
-          properties: response.data
-        })
-      }.bind(this))
-      .catch(function (error) {
-        console.log(error.response.status)
-      }.bind(this))
+    fetchProperties(
+      null,
+      this.setLoading,
+      this.setProperties
+    )
   }
 
   render() {
+    const {properties} = this.state
+
+    if (this.state.isLoading) {
+      return (
+          <div className="row">
+            <div className="col">
+              Is loading...
+            </div>
+          </div>
+        )
+    }
+
     return(
       <div className="row">
         <div className="col">
-          Hello! I am a 'dashboard page'. Fill me please!
-          <Map properties={this.state.properties}/>
+          <p>Number of properties: {properties.length}</p>
+          <p>Average size of property: { Average(properties.map(el => el.size)).toFixed(2) }</p>
+          <Map properties={properties}/>
         </div>
       </div>
     )

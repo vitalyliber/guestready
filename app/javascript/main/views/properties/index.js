@@ -12,7 +12,8 @@ export default class Index extends React.Component {
     this.state = {
       properties: [],
       value: '',
-      suggestions: []
+      suggestions: [],
+      isLoading: false
     };
 
     this.properties = this.properties.bind(this);
