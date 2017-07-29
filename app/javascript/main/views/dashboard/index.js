@@ -40,9 +40,9 @@ export default class DashboardComponent extends Component {
   }
 
   render() {
-    const {properties} = this.state
+    const {properties, isLoading} = this.state
 
-    if (this.state.isLoading) {
+    if (isLoading) {
       return (
           <Loader/>
         )

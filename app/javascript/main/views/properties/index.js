@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
-import axios from 'axios'
 import { Card, CardText, CardBlock, CardTitle, CardSubtitle, CardColumns } from 'reactstrap'
 import { InputGroup, InputGroupButton } from 'reactstrap'
 import Autosuggest from 'react-autosuggest'
-import isEmpty from 'is-empty'
+import { fetchProperties } from './../api'
+import Loader from './../common/loader'
 
 export default class PropertyComponent extends Component {
   constructor(props) {
@@ -16,26 +16,37 @@ export default class PropertyComponent extends Component {
       isLoading: false
     }
 
-    this.properties = this.properties.bind(this)
   }
 
   componentWillMount() {
     this.properties(null)
   }
 
-  properties(name) {
-    let search_name = isEmpty(name) ? '' : `?name=${name}`
+  setLoading = () => {
+    this.setState({
+      isLoading: true
+    })
+  }
 
-    axios.get(`/api/v1/properties${search_name}`)
-      .then(function (response) {
-        console.log(response)
-        this.setState({
-          properties: response.data
-        })
-      }.bind(this))
-      .catch(function (error) {
-        console.log(error.response.status)
-      }.bind(this))
+  setProperties = (properties) => {
+    this.setState({
+      properties: properties,
+      isLoading: false
+    })
+  }
+
+  setSuggestions = (suggestions) => {
+    this.setState({
+      suggestions: suggestions
+    })
+  }
+
+  properties = (name) => {
+    fetchProperties(
+      name,
+      this.setLoading,
+      this.setProperties
+    )
   }
 
   escapeRegexCharacters(str) {
@@ -53,18 +64,11 @@ export default class PropertyComponent extends Component {
       return []
     }
 
-    const regex = new RegExp('^' + escapedValue, 'i')
-
-    axios.get(`/api/v1/properties?name=${escapedValue}`)
-      .then(function (response) {
-        console.log(response)
-        this.setState({
-          suggestions: response.data
-        });
-      }.bind(this))
-      .catch(function (error) {
-        console.log(error.response.status)
-      }.bind(this))
+    fetchProperties(
+      escapedValue,
+      () => (null),
+      this.setSuggestions
+    )
   }
 
   getSuggestionValue(suggestion) {
@@ -94,12 +98,14 @@ export default class PropertyComponent extends Component {
   }
 
   render() {
-    const { value, suggestions } = this.state
+    const { value, suggestions, isLoading } = this.state
     const inputProps = {
       placeholder: "Type 'name of property'...",
       value,
       onChange: this.onChange
     }
+
+
 
     return(
       <div className="row">
@@ -118,19 +124,26 @@ export default class PropertyComponent extends Component {
             <InputGroupButton onClick={() => this.properties(this.state.value)} color="success">Search</InputGroupButton>
           </InputGroup>
 
-          <CardColumns>
-            { this.state.properties.map(( (property, index) => {
-              return(
-                <Card key={index} className="mb-4">
-                  <CardBlock>
-                    <CardTitle>{property.name}</CardTitle>
-                    <CardSubtitle>{property.address}</CardSubtitle>
-                    <CardText>Size: {property.size}, Bedrooms: {property.bedrooms_number}, Bathrooms: {property.bathrooms_number}</CardText>
-                  </CardBlock>
-                </Card>
-              )
-            }))}
-          </CardColumns>
+          { isLoading ? (
+            <Loader/>
+          ) : (
+            <CardColumns>
+              { this.state.properties.map(( (property, index) => {
+                return(
+                  <Card key={index} className="mb-4">
+                    <CardBlock>
+                      <CardTitle>{property.name}</CardTitle>
+                      <CardSubtitle>{property.address}</CardSubtitle>
+                      <CardText>Size: {property.size}, Bedrooms: {property.bedrooms_number}, Bathrooms: {property.bathrooms_number}</CardText>
+                    </CardBlock>
+                  </Card>
+                )
+              }))}
+            </CardColumns>
+          )
+          }
+
+
         </div>
       </div>
     )

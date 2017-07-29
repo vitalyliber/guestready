@@ -8,7 +8,6 @@ export const fetchProperties = (name, before, after) => {
 
   axios.get(`/api/v1/properties${search_name}`)
     .then(function (response) {
-      console.log(response)
       after(response.data)
     })
     .catch(function (error) {
