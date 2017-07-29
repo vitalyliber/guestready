@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PropertiesControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get properties_index_url
+    get '/api/v1/properties'
     assert_response :success
   end
 
