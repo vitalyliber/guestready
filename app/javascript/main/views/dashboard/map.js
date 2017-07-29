@@ -39,7 +39,7 @@ export class MapContainer extends Component {
       <div className="row">
         <div className="col-12">
 
-          <Map  google={this.props.google}
+          <Map  google={window.google}
                 style={style}
                 zoom={2}
                 initialCenter={{
@@ -74,6 +74,4 @@ export class MapContainer extends Component {
   }
 }
 
-export default GoogleApiWrapper({
-  apiKey: ('AIzaSyBzqI1XCj3UpwjZUV2TSbyQcoZwseyRgUc')
-})(MapContainer)
+export default MapContainer
