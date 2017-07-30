@@ -3,19 +3,13 @@ import axios from 'axios'
 import { UncontrolledAlert } from 'reactstrap'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import { browserHistory } from 'react-router'
+import { createProperty } from './../api'
 
 export default class NewPropertyComponent extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      name: '',
-      address: '',
-      bedrooms_number: '',
-      bathrooms_number: '',
-      size: '',
-      errors: []
-    }
+    this.resetPropertyParams()
 
     this.handleInputChange = this.handleInputChange.bind(this)
     this.createProperty = this.createProperty.bind(this)
@@ -32,42 +26,47 @@ export default class NewPropertyComponent extends Component {
     })
   }
 
+  resetPropertyParams = () => {
+    this.state = {
+      name: '',
+      address: '',
+      bedrooms_number: '',
+      bathrooms_number: '',
+      size: '',
+      errors: []
+    }
+  }
+
   createProperty(e) {
     e.preventDefault()
+
+
 
     geocodeByAddress(this.state.address)
       .then(results => getLatLng(results[0]))
       .then( (lat_lng) => {
-        console.log('Success', lat_lng);
 
-        axios.post(`/api/v1/properties`, {
-          name: this.state.name,
-          address: this.state.address,
-          bedrooms_number: this.state.bedrooms_number,
-          bathrooms_number: this.state.bathrooms_number,
-          size: this.state.size,
-          lat: lat_lng.lat,
-          lng: lat_lng.lng
-        })
-          .then(function (response) {
-            console.log(response)
-            this.setState({
-              name: '',
-              address: '',
-              bedrooms_number: '',
-              bathrooms_number: '',
-              size: '',
-              errors: []
-            })
-
+        createProperty(
+          {
+            name: this.state.name,
+            address: this.state.address,
+            bedrooms_number: this.state.bedrooms_number,
+            bathrooms_number: this.state.bathrooms_number,
+            size: this.state.size,
+            lat: lat_lng.lat,
+            lng: lat_lng.lng
+          },
+          () => {},
+          () => {
+            this.resetPropertyParams()
             this.props.history.push('/properties')
-          }.bind(this))
-          .catch(function (error) {
-            console.log(error.response.status)
+          },
+          () => (
             this.setState({
               errors: error.response.data.errors
             })
-          }.bind(this))
+          )
+        )
 
       })
       .catch( (error) => {

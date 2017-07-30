@@ -14,3 +14,15 @@ export const fetchProperties = (name, before, after) => {
       console.log(error.response.status)
     })
 }
+
+export const createProperty = (params, before, after, error) => {
+  before()
+
+  axios.post(`/api/v1/properties`, params)
+    .then(function (response) {
+      after()
+    }.bind(this))
+    .catch(function (error) {
+      error()
+    }.bind(this))
+}
