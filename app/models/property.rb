@@ -4,6 +4,6 @@ class Property < ApplicationRecord
                   :against => :name,
                   :using => [:tsearch, :trigram, :dmetaphone]
 
-  validates :name, :address, :bedrooms_number, :bathrooms_number, :size, presence: :true
+  validates :name, :address, :bedrooms_number, :bathrooms_number, :size, :lat, :lng, presence: :true
   validates :bedrooms_number, :bathrooms_number, numericality: { greather_than: 1 }
 end
