@@ -1,15 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  address: MyString
+  name: Baker Street house
+  address: Baker Street Station, Marylebone Road, London, United Kingdom
   bedrooms_number: 1
   bathrooms_number: 1
-  size: 1.5
+  size: 100
+  lat: 51.5231577
+  lng: -0.1590517,17
 
 two:
-  name: MyString
-  address: MyString
+  name: HongKong
+  address: HongKong house
   bedrooms_number: 1
   bathrooms_number: 1
-  size: 1.5
+  size: 50
+  lat: 22.27619
+  lng: 114.1726601

@@ -54,6 +54,7 @@ export class MapContainerComponent extends Component {
                       name={property.name}
                       onClick={this.onMarkerClick}
                       position={{lat: property.lat, lng: property.lat}}
+                      optimized={false}
               />
             )}
 

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import axios from 'axios'
 import { UncontrolledAlert } from 'reactstrap'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import { browserHistory } from 'react-router'
 
 export default class NewPropertyComponent extends Component {
   constructor(props) {
@@ -58,6 +59,8 @@ export default class NewPropertyComponent extends Component {
               size: '',
               errors: []
             })
+
+            this.props.history.push('/properties')
           }.bind(this))
           .catch(function (error) {
             console.log(error.response.status)
@@ -65,6 +68,7 @@ export default class NewPropertyComponent extends Component {
               errors: error.response.data.errors
             })
           }.bind(this))
+
       })
       .catch( (error) => {
         console.error('Error', error);
@@ -75,13 +79,14 @@ export default class NewPropertyComponent extends Component {
   render() {
     const addressClasses = {
       input: 'form-control'
-    };
+    }
 
     const inputProps = {
       value: this.state.address,
       onChange: this.addressOnChange,
-      placeholder: 'Address'
-    };
+      placeholder: 'Address',
+      name: 'address'
+    }
 
     return(
       <div className="row">
